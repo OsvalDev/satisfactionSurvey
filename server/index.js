@@ -17,7 +17,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./dist'))
 
 app.get('/', Pages.getIndex);
+
 app.get('/api/user', controller.getUser);
+app.get('/api/surveyEmployee', controller.surveyEmployee);
 
 app.post('/api/survey', controller.postSurvey);
 

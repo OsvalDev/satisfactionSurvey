@@ -18,6 +18,7 @@ type DataSurvey = {
 
 type Api = {
   getUserInfo: (id: string) => Promise<[]>;
+  verifyResponseExist: (id: string) => Promise<[]>;
   sendSurvey: (data: DataSurvey) => Promise<{status: string, msg: string}>;
 };
 
@@ -29,6 +30,16 @@ const api: Api = {
       numEmployee: id,
     };
     const response = await axios.get(`${baseApiEndpoint}/api/user`, {
+      params: queryParams,
+    });
+
+    return response.data;
+  },
+  verifyResponseExist: async (id) => {
+    const queryParams = {
+      numEmployee: id,
+    };
+    const response = await axios.get(`${baseApiEndpoint}/api/surveyEmployee`, {
       params: queryParams,
     });
 

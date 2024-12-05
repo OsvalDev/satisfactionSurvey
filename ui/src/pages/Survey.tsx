@@ -1,5 +1,5 @@
 import LogoCarnival from '../assets/carnivalLogo.png';
-import { useForm, SubmitHandler, UseFormSetValue  } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormSetValue, FieldErrors  } from 'react-hook-form';
 import { useEffect, useState, useRef } from 'react';
 import {FireSucess, FireError} from '../utils/alertHandler';
 
@@ -30,6 +30,7 @@ type Inputs = {
 type EmployeeData = {
     nombre: string;
     departamento: string;
+    trab_id: string;
   };
 
 type DataSurvey = {
@@ -60,7 +61,7 @@ const strings = {
   satisfactionQuestion: 'De la escala del 1  minimo al 10 maximo,  ¿como calificas tu satisfacción en la empresa?',
   helpQuestion: '¿ Hay algo en que te pueda apoyar ?',
   basicTitle: 'Básicos de la operación',
-  basicDescription: 'Marca el basico que estamos cumpliento',
+  basicDescription: 'Marca el basico que estamos cumpliendo',
   basicPayment: 'Pago correcto',
   basicVacations: 'Vacaciones pendientes',
   basicPayrollReceipt: 'Recibo de nomina',
@@ -90,19 +91,19 @@ const generateSteps = (end: number, step: number) => {
 
 const stepsRangeSatisfaction = generateSteps(10, 1);
 
-const getEmployeeData = async (employee: string, setValue: UseFormSetValue<Inputs>) => {
+const getEmployeeData = async (employee: string, setValue: UseFormSetValue<Inputs>, errors: FieldErrors<Inputs>) => {
   if (employee){
     const data: EmployeeData[] = await api.getUserInfo(employee);
-
     if ( data && data.length > 0 ) {
+      // TODO: manage user verification
+      const verificationEmployee = await api.verifyResponseExist(data[0]?.trab_id);
       setValue('nameEmployee', data[0]?.nombre);
       setValue('area', data[0]?.departamento);
-    } else {
-      setValue('nameEmployee', '');
-      setValue('area', '');
+      return;
     }
-    // eslint-disable-next-line no-console
-    console.log('Getting data: ', employee, data);
+
+    setValue('nameEmployee', '');
+    setValue('area', '');
   }
 };
 
@@ -127,7 +128,6 @@ const Survey = () => {
 
     if (formatData.feeling === '') {
       if (feelingRef.current) {
-        // eslint-disable-next-K
         feelingRef.current.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
@@ -157,8 +157,9 @@ const Survey = () => {
   };
 
   useEffect(() => {
-    getEmployeeData(idEmployee, setValue);
-  }, [idEmployee, setValue]);
+    getEmployeeData(idEmployee, setValue, errors);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idEmployee]);
 
   return(
     <div className='w-screen min-h-screen overflow-x-hidden flex justify-center py-4'>

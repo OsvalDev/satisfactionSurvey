@@ -40,6 +40,21 @@ controller.getUser = async (req, res) => {
   }
 };
 
+controller.surveyEmployee = async (req, res) => {
+  const numEmployee = req.query.numEmployee;
+  try {
+    if ( numEmployee && numEmployee !== '' ) {
+      const query = 'SELECT * FROM SATISFACTION WHERE idEmployee like @numEmployee';
+      const values = { numEmployee};
+      const result = await db.makeQuery(query, values )
+      res.status(200).json( result );
+    }
+    else res.status(500).json([]);
+  } catch (error) {
+    res.status(500).json([]);
+  }
+};
+
 controller.postSurvey = async (req, res) => {
   const data = req.body;
 
