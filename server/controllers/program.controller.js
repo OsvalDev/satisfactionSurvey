@@ -13,19 +13,40 @@ const controller = {};
 
 controller.newProgram = async (req, res) => {
   const data = req.body;
-  
-  if (verifyProgram(data) === null) {
-    res.status(500).json( {status: 'error', msg: 'Datos incorrectos'})
+
+  if (!verifyProgram(data)) {
+    res.status(400).json({ status: 'error', msg: 'Datos incorrectos' });
     return;
-  };
+  }
 
   try {
-    const query = 'INSERT INTO "SATISFACTIONPROGRAM"("endDate","startDate","programName") VALUES( @endDate, @startDate, @programName );';
-    const values = { endDate: data.endDate, startDate: data.startDate, programName: data.name };
-    await db.makeQuery(query, values )
-    res.status(200).json( {status: 'success', msg: 'Programa registrado'});
+    // Verificar si ya existe un programa en el rango de fechas
+    const checkQuery = `
+      SELECT COUNT(*) AS count 
+      FROM "SATISFACTIONPROGRAM"
+      WHERE 
+        ("startDate" <= @endDate AND "endDate" >= @startDate)
+    `;
+    const checkValues = { startDate: data.startDate, endDate: data.endDate };
+
+    const result = await db.makeQuery(checkQuery, checkValues);
+
+    if (result.length > 0) {
+      res.status(200).json({ status: 'error', msg: 'Ya existe un programa en el rango de fechas' });
+      return;
+    }
+
+    const insertQuery = `
+      INSERT INTO "SATISFACTIONPROGRAM"("endDate", "startDate", "programName") 
+      VALUES(@endDate, @startDate, @programName);
+    `;
+    const insertValues = { endDate: data.endDate, startDate: data.startDate, programName: data.name };
+    await db.makeQuery(insertQuery, insertValues);
+
+    res.status(200).json({ status: 'success', msg: 'Programa registrado' });
   } catch (error) {
-    res.status(500).json( {status: 'error', msg: 'Error en la base de datos'});
+    console.error(error);
+    res.status(500).json({ status: 'error', msg: 'Error en la base de datos' });
   }
 };
 

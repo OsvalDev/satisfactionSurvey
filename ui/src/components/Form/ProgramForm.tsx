@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import api from '../../api/api';
 
@@ -21,15 +21,22 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ updateFunction}) => {
     formState: { errors, isValid },
   } = useForm<FormValues>({ mode: 'onChange' });
 
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const today = new Date().toISOString().split('T')[0];
   const startDateValue = watch('startDate');
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    reset();
-    await api.newProgram(data);
-    updateFunction();
-    const modal = document.getElementById('modalNewProgram') as HTMLDialogElement;
-    modal?.close();
+    const result = await api.newProgram(data);
+    if (result.status === 'success') {
+      reset();
+      updateFunction();
+      const modal = document.getElementById('modalNewProgram') as HTMLDialogElement;
+      modal?.close();
+      setApiError(null);
+    } else {
+      setApiError(result.msg);
+    }
   };
 
   return (
@@ -77,6 +84,11 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ updateFunction}) => {
         {errors.startDate && (
           <label className="label text-error">
             <span className="label-text-alt">{errors.startDate.message}</span>
+          </label>
+        )}
+        {apiError && (
+          <label className="label text-error">
+            <span className="label-text-alt">{apiError}</span>
           </label>
         )}
       </div>
