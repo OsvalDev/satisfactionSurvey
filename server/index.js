@@ -17,8 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./dist'))
 
-app.get('/', Pages.getIndex);
-
 app.get('/api/user', controller.getUser);
 app.get('/api/surveyEmployee', controller.surveyEmployee);
 app.get('/api/programList', programController.getAllPrograms);
@@ -26,6 +24,8 @@ app.get('/api/program', controller.surveyData);
 
 app.post('/api/survey', controller.postSurvey);
 app.post('/api/program', programController.newProgram);
+
+app.get('*', Pages.getIndex);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
