@@ -1,5 +1,6 @@
 import {ResponsiveContainer,BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar} from 'recharts';
 import { PieChartComponent } from '../components/PieChartComponent';
+import { ProgramForm } from '../components/Form/ProgramForm';
 
 const data = [
   { name: 'Page A', uv: 4000, pv: 2400, fill: '#82ca9d' },
@@ -51,7 +52,7 @@ const Dashboard = () => {
         <div className="hidden sm:flex justify-center items-center h-full w-fit sm:h-20 sm:w-full bg-white p-2 sm:p-4 rounded-md shadow-md ">
           <p className="font-semibold text-2xl">Programas</p>
         </div>
-        <button className="flex h-full w-12 sm:h-20 sm:w-full justify-center bg-white p-2 sm:p-4 mx-2 sm:mx-0 sm:my-2 rounded-md hover:bg-gray-200 hover:cursor-pointer shadow-md">
+        <button onClick={()=> (document.getElementById('modalNewProgram') as HTMLDialogElement)?.showModal() } className="flex h-full w-12 sm:h-20 sm:w-full justify-center bg-white p-2 sm:p-4 mx-2 sm:mx-0 sm:my-2 rounded-md hover:bg-gray-200 hover:cursor-pointer shadow-md">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="h-full" viewBox="0 0 448 512">
             <path d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
           </svg>
@@ -60,6 +61,15 @@ const Dashboard = () => {
           <p>Nombre</p>
         </button>
       </div>
+      <dialog id="modalNewProgram" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h3 className="font-bold text-lg">Nuevo programa</h3>
+          <ProgramForm />
+        </div>
+      </dialog>
       <div className="flex-1 px-6 sm:px-8">
         <div className="bg-white w-full rounded-lg  sm:rounded-t-none shadow-md py-2 sm:py-4">
           <p className="text-xl text-center sm:text-xl lg:text-3xl font-bold mb-2"> Nombre del programa </p>
