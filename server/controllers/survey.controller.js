@@ -46,7 +46,7 @@ controller.surveyEmployee = async (req, res) => {
     if ( numEmployee && numEmployee !== '' ) {
       const query = 'SELECT * FROM SATISFACTION WHERE idEmployee like @numEmployee';
       const values = { numEmployee};
-      const result = await db.makeQuery(query, values )
+      const result = await db.makeQuery(query, values );
       res.status(200).json( result );
     }
     else res.status(500).json([]);
@@ -89,6 +89,32 @@ controller.postSurvey = async (req, res) => {
       res.status(200).json( ({status: 'success', msg: 'Respuesta registrada'}));
   } catch (error) {
     res.status(500).json( {status: 'error', msg: 'Error en la base de datos'});
+  }
+};
+
+controller.surveyData = async (req, res) => {
+  const programId = req.query.id;
+
+  try {
+    if ( programId && programId !== '' ){
+      let query = 'SELECT * FROM SATISFACTONPROGRAM WHERE id = @id';
+      let values = { id: programId};
+      const programData = await db.makeQuery(query, values );
+  
+      // get responses acording to program
+      query = 'SELECT * FROM SATISFACTION WHERE dateEntry >= @startDate AND dateEntry <= @endDate ';
+      values = {startDate: programData.startDate, endDate: programData.endDate };
+      const responses = await db.makeQuery(query, values);
+  
+      const formatData = {programData, responses};
+  
+      res.status(200).json({status: 'success', data: formatData});
+  
+    } else {
+      res.status(500).json({status: 'success', data: 'Id no provided'});
+    }
+  } catch (error) {
+    res.status(500).json({status: 'success', data: 'Id no provided'});
   }
 };
 

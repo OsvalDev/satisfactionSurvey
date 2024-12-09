@@ -20,7 +20,7 @@ controller.newProgram = async (req, res) => {
   };
 
   try {
-    const query = 'INSERT INTO "SATISFACTONPROGRAM"("endDate","startDate","programName") VALUES( @endDate, @startDate, @programName );';
+    const query = 'INSERT INTO "SATISFACTIONPROGRAM"("endDate","startDate","programName") VALUES( @endDate, @startDate, @programName );';
     const values = { endDate: data.endDate, startDate: data.startDate, programName: data.name };
     await db.makeQuery(query, values )
     res.status(200).json( {status: 'success', msg: 'Programa registrado'});
@@ -31,7 +31,7 @@ controller.newProgram = async (req, res) => {
 
 controller.getAllPrograms = async (req, res) => {
   try {
-    const query = 'SELECT programName FROM "SATISFACTONPROGRAM"';
+    const query = 'SELECT id, programName FROM "SATISFACTIONPROGRAM"';
     const result = await db.makeQuery(query );
     res.status(200).json( {status: 'success', data: result});
   } catch (error) {

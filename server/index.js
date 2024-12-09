@@ -21,7 +21,8 @@ app.get('/', Pages.getIndex);
 
 app.get('/api/user', controller.getUser);
 app.get('/api/surveyEmployee', controller.surveyEmployee);
-app.get('/api/program', programController.getAllPrograms);
+app.get('/api/programList', programController.getAllPrograms);
+app.get('/api/program', controller.surveyData)
 
 app.post('/api/survey', controller.postSurvey);
 app.post('/api/program', programController.newProgram);
