@@ -20,6 +20,7 @@ type Api = {
   getUserInfo: (id: string) => Promise<[]>;
   verifyResponseExist: (id: string) => Promise<[]>;
   sendSurvey: (data: DataSurvey) => Promise<{status: string, msg: string}>;
+  getPrograms: () => Promise<{status: string, data: [] | string}>,
 };
 
 const baseApiEndpoint =  import.meta.env.VITE_API_URL;
@@ -50,6 +51,11 @@ const api: Api = {
     const response = await axios.post(`${baseApiEndpoint}/api/survey`, data);
     return response.data;
   },
+
+  getPrograms: async () => {
+    const response = await axios.get(`${baseApiEndpoint}/api/program`);
+    return response.data;
+  }
 };
 
 export default api;
