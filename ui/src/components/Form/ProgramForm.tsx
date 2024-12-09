@@ -88,7 +88,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ updateFunction}) => {
         )}
         {apiError && (
           <label className="label text-error">
-            <span className="label-text-alt">{apiError}</span>
+            <span className="label-text-alt font-semibold">{apiError}</span>
           </label>
         )}
       </div>

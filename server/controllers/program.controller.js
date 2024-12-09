@@ -30,8 +30,9 @@ controller.newProgram = async (req, res) => {
     const checkValues = { startDate: data.startDate, endDate: data.endDate };
 
     const result = await db.makeQuery(checkQuery, checkValues);
+    const { count } = result[0];
 
-    if (result.length > 0) {
+    if (count > 0) {
       res.status(200).json({ status: 'error', msg: 'Ya existe un programa en el rango de fechas' });
       return;
     }
