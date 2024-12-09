@@ -1,5 +1,5 @@
 import LogoCarnival from '../assets/carnivalLogo.png';
-import { useForm, SubmitHandler, UseFormSetValue, FieldErrors  } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormSetValue  } from 'react-hook-form';
 import { useEffect, useState, useRef } from 'react';
 import {FireSucess, FireError} from '../utils/alertHandler';
 
@@ -91,12 +91,12 @@ const generateSteps = (end: number, step: number) => {
 
 const stepsRangeSatisfaction = generateSteps(10, 1);
 
-const getEmployeeData = async (employee: string, setValue: UseFormSetValue<Inputs>, errors: FieldErrors<Inputs>) => {
+const getEmployeeData = async (employee: string, setValue: UseFormSetValue<Inputs>) => {
   if (employee){
     const data: EmployeeData[] = await api.getUserInfo(employee);
     if ( data && data.length > 0 ) {
       // TODO: manage user verification
-      const verificationEmployee = await api.verifyResponseExist(data[0]?.trab_id);
+      // const verificationEmployee = await api.verifyResponseExist(data[0]?.trab_id);
       setValue('nameEmployee', data[0]?.nombre);
       setValue('area', data[0]?.departamento);
       return;
@@ -157,7 +157,7 @@ const Survey = () => {
   };
 
   useEffect(() => {
-    getEmployeeData(idEmployee, setValue, errors);
+    getEmployeeData(idEmployee, setValue);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idEmployee]);
 

@@ -165,6 +165,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchDataProgramDetail(programActive);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [programActive]);
 
   return(
