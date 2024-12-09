@@ -1,8 +1,9 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import api from '../../api/api';
 
 type FormValues = {
-  programName: string;
+  name: string;
   startDate: string;
   endDate: string;
 };
@@ -12,16 +13,18 @@ const ProgramForm: React.FC = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isValid },
   } = useForm<FormValues>({ mode: 'onChange' });
 
   const today = new Date().toISOString().split('T')[0];
   const startDateValue = watch('startDate');
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    // TODO: Add apifunction to post
-    // eslint-disable-next-line no-console
-    console.log('Form Submitted:', data);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    await api.newProgram(data);
+    reset();
+    const modal = document.getElementById('modalNewProgram') as HTMLDialogElement;
+    modal?.close();
   };
 
   return (
@@ -38,15 +41,15 @@ const ProgramForm: React.FC = () => {
           type="text"
           id="programName"
           placeholder="Programa..."
-          className={`input input-bordered ${errors.programName ? 'input-error' : ''}`}
-          {...register('programName', {
+          className={`input input-bordered ${errors.name ? 'input-error' : ''}`}
+          {...register('name', {
             required: 'Se necesita el nombre del programa.',
             minLength: { value: 1, message: 'Name must have at least 1 character.' },
           })}
         />
-        {errors.programName && (
+        {errors.name && (
           <label className="label text-error">
-            <span className="label-text-alt">{errors.programName.message}</span>
+            <span className="label-text-alt">{errors.name.message}</span>
           </label>
         )}
       </div>

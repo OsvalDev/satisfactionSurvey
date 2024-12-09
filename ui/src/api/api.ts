@@ -22,11 +22,18 @@ type DataProgram = {
   endDate: string
 };
 
+type Program = {
+  id: number,
+  startDate: string,
+  endDate: string,
+  programName: string
+}
+
 type Api = {
   getUserInfo: (id: string) => Promise<[]>;
   verifyResponseExist: (id: string) => Promise<[]>;
   sendSurvey: (data: DataSurvey) => Promise<{status: string, msg: string}>;
-  getPrograms: () => Promise<{status: string, data: [] | string}>,
+  getPrograms: () => Promise<{status: string, data: Program[]}>,
   newProgram: (data: DataProgram) => Promise<{status: string, msg: string}>;
 };
 

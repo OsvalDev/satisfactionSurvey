@@ -59,7 +59,10 @@ controller.postSurvey = async (req, res) => {
   const data = req.body;
 
   //Verify data
-  if ( verifySurveyresponse(data) === null ) res.status(500).json( {status: 'error', msg: 'Datos incorrectos'});
+  if ( verifySurveyresponse(data) === null ) {
+    res.status(500).json( {status: 'error', msg: 'Datos incorrectos'})
+    return;
+  };
 
   try {
       const query = `INSERT INTO "SATISFACTION"

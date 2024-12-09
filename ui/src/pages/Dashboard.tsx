@@ -1,6 +1,8 @@
 import {ResponsiveContainer,BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar} from 'recharts';
 import { PieChartComponent } from '../components/PieChartComponent';
 import { ProgramForm } from '../components/Form/ProgramForm';
+import { useEffect, useState } from 'react';
+import api from '../api/api';
 
 const data = [
   { name: 'Page A', uv: 4000, pv: 2400, fill: '#82ca9d' },
@@ -45,7 +47,26 @@ const data2 = [
   }
 ];
 
+type Program = {
+  id: number,
+  startDate: string,
+  endDate: string,
+  programName: string
+}
+
 const Dashboard = () => {
+  const [programs, setPrograms] = useState([] as Program[]);
+
+  const fetchData = async () => {
+    const result = await api.getPrograms();
+    if (result.status === 'success')
+      setPrograms(result.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return(
     <div className='w-screen min-h-screen flex flex-col sm:flex-row relative '>
       <div className="h-20 w-full sm:h-screen sm:w-1/4 p-4 flex flex-row sm:flex-col overflow-auto sm:sticky sm:top-0 ">
@@ -57,9 +78,13 @@ const Dashboard = () => {
             <path d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
           </svg>
         </button>
-        <button className="h-full w-fit sm:h-20 sm:w-full justify-center bg-white p-2 sm:p-4 rounded-md hover:bg-gray-200 hover:cursor-pointer shadow-md">
-          <p>Nombre</p>
-        </button>
+        {programs && programs.length > 0 && programs.map((item, index) => (
+          <button key={index} className="h-full w-fit sm:h-20 sm:w-full justify-center bg-white p-2 sm:p-4 rounded-md hover:bg-gray-200 hover:cursor-pointer shadow-md mx-1 sm:mx-0 sm:my-2">
+            <p className="text-nowrap sm:text-wrap overflow-hidden text-ellipsis whitespace-nowrap">
+              {item.programName}
+            </p>
+          </button>
+        ))}
       </div>
       <dialog id="modalNewProgram" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">

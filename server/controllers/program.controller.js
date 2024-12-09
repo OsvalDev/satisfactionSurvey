@@ -14,10 +14,14 @@ const controller = {};
 controller.newProgram = async (req, res) => {
   const data = req.body;
   
-  if (verifyProgram(data) === null) res.status(500).json( {status: 'error', msg: 'Datos incorrectos'});
+  if (verifyProgram(data) === null) {
+    res.status(500).json( {status: 'error', msg: 'Datos incorrectos'})
+    return;
+  };
+
   try {
     const query = 'INSERT INTO "SATISFACTONPROGRAM"("endDate","startDate","programName") VALUES( @endDate, @startDate, @programName );';
-    const values = { endDate: data.endDate, startDate: data.startDate, programName: data.programName };
+    const values = { endDate: data.endDate, startDate: data.startDate, programName: data.name };
     await db.makeQuery(query, values )
     res.status(200).json( {status: 'success', msg: 'Programa registrado'});
   } catch (error) {
@@ -27,8 +31,8 @@ controller.newProgram = async (req, res) => {
 
 controller.getAllPrograms = async (req, res) => {
   try {
-    const query = 'SELECT * FROM "SATISFACTONPROGRAM"';
-    const result = await db.makeQuery(query, values );
+    const query = 'SELECT programName FROM "SATISFACTONPROGRAM"';
+    const result = await db.makeQuery(query );
     res.status(200).json( {status: 'success', data: result});
   } catch (error) {
     res.status(500).json( {status: 'error', data: 'Error en la base de datos'});
