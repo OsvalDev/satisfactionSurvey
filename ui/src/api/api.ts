@@ -16,11 +16,18 @@ type DataSurvey = {
   comments: string
 };
 
+type DataProgram = {
+  name: string,
+  startDate: string,
+  endDate: string
+};
+
 type Api = {
   getUserInfo: (id: string) => Promise<[]>;
   verifyResponseExist: (id: string) => Promise<[]>;
   sendSurvey: (data: DataSurvey) => Promise<{status: string, msg: string}>;
   getPrograms: () => Promise<{status: string, data: [] | string}>,
+  newProgram: (data: DataProgram) => Promise<{status: string, msg: string}>;
 };
 
 const baseApiEndpoint =  import.meta.env.VITE_API_URL;
@@ -55,7 +62,13 @@ const api: Api = {
   getPrograms: async () => {
     const response = await axios.get(`${baseApiEndpoint}/api/program`);
     return response.data;
-  }
+  },
+
+  newProgram: async (data)  => {
+    const response = await axios.post(`${baseApiEndpoint}/api/program`, data);
+    return response.data;
+  },
+
 };
 
 export default api;
