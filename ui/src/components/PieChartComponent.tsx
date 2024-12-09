@@ -9,7 +9,7 @@ type Entrie = {
 }
 
 type PieChartProps = {
-  data: Entrie[],
+  data: Entrie[] | undefined,
   title: string
 }
 

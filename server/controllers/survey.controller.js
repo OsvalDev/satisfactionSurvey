@@ -100,10 +100,9 @@ controller.surveyData = async (req, res) => {
       let query = 'SELECT * FROM SATISFACTIONPROGRAM WHERE id = @id';
       let values = { id: programId};
       const programData = await db.makeQuery(query, values );
-  
       // get responses acording to program
       query = 'SELECT * FROM SATISFACTION WHERE dateEntry >= @startDate AND dateEntry <= @endDate ';
-      values = {startDate: programData.startDate, endDate: programData.endDate };
+      values = {startDate: programData[0].startDate, endDate: programData[0].endDate };
       const responses = await db.makeQuery(query, values);
   
       const formatData = {programData, responses};
@@ -114,7 +113,6 @@ controller.surveyData = async (req, res) => {
       res.status(500).json({status: 'success', data: 'Id no provided'});
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({status: 'success', data: 'Id no provided'});
   }
 };

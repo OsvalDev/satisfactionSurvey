@@ -18,7 +18,8 @@ CREATE TABLE SATISFACTION (
   cleanWorkSpace BIT NOT NULL,
   cleanBathroom BIT NOT NULL,
   cleanDiningroom BIT NOT NULL,
-  comments VARCHAR(500)
+  comments VARCHAR(500),
+  dateEntry DATE DEFAULT GETDATE()
 );
 GO
 
@@ -28,5 +29,3 @@ CREATE TABLE SATISFACTIONPROGRAM(
   endDate DATE NOT NULL,
   programName VARCHAR(100)
 );
-
-ALTER TABLE "SATISFACTION" ADD "dateEntry" DATE DEFAULT 'GETDATE()';

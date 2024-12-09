@@ -29,13 +29,18 @@ type Program = {
   programName: string
 }
 
+type ProgramDetail = {
+  programData: Program[],
+  responses: DataSurvey[]
+};
+
 type Api = {
   getUserInfo: (id: string) => Promise<[]>;
   verifyResponseExist: (id: string) => Promise<[]>;
   sendSurvey: (data: DataSurvey) => Promise<{status: string, msg: string}>;
   getPrograms: () => Promise<{status: string, data: Program[]}>,
   newProgram: (data: DataProgram) => Promise<{status: string, msg: string}>;
-  programDetail: (id: number) => Promise<{status: string, data: []}>;
+  programDetail: (id: number) => Promise<{status: string, data: ProgramDetail }>;
 };
 
 const baseApiEndpoint =  import.meta.env.VITE_API_URL;
