@@ -97,7 +97,7 @@ controller.surveyData = async (req, res) => {
 
   try {
     if ( programId && programId !== '' ){
-      let query = 'SELECT * FROM SATISFACTONPROGRAM WHERE id = @id';
+      let query = 'SELECT * FROM SATISFACTIONPROGRAM WHERE id = @id';
       let values = { id: programId};
       const programData = await db.makeQuery(query, values );
   
@@ -114,6 +114,7 @@ controller.surveyData = async (req, res) => {
       res.status(500).json({status: 'success', data: 'Id no provided'});
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({status: 'success', data: 'Id no provided'});
   }
 };

@@ -56,11 +56,21 @@ type Program = {
 
 const Dashboard = () => {
   const [programs, setPrograms] = useState([] as Program[]);
+  const [programActive, setProgramActive] = useState('');
 
   const fetchData = async () => {
     const result = await api.getPrograms();
-    if (result.status === 'success')
+    if (result.status === 'success') {
       setPrograms(result.data);
+      if (result.data.length > 0) setProgramActive(result.data[0].programName);
+    }
+  };
+
+  const fetchDataProgramDetail = async (id: number, name: string) => {
+    setProgramActive(name);
+    const result = await api.programDetail(id);
+    // eslint-disable-next-line no-console
+    console.log(result);
   };
 
   useEffect(() => {
@@ -79,7 +89,9 @@ const Dashboard = () => {
           </svg>
         </button>
         {programs && programs.length > 0 && programs.map((item, index) => (
-          <button key={index} className="h-full w-fit sm:h-20 sm:w-full justify-center bg-white p-2 sm:p-4 rounded-md hover:bg-gray-200 hover:cursor-pointer shadow-md mx-1 sm:mx-0 sm:my-2">
+          <button key={index} className={`h-full w-fit sm:h-20 sm:w-full justify-center ${programActive === item.programName
+            ? 'bg-pink-200' : 'bg-white'} p-2 sm:p-4 rounded-md hover:bg-gray-200 hover:cursor-pointer shadow-md mx-1 sm:mx-0 sm:my-2`}
+          onClick={() => fetchDataProgramDetail(item.id, item.programName)}>
             <p className="text-nowrap sm:text-wrap overflow-hidden text-ellipsis whitespace-nowrap">
               {item.programName}
             </p>
