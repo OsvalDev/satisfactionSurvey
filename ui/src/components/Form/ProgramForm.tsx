@@ -8,7 +8,11 @@ type FormValues = {
   endDate: string;
 };
 
-const ProgramForm: React.FC = () => {
+type ProgramFormProps = {
+  updateFunction: () => Promise<void>;
+}
+
+const ProgramForm: React.FC<ProgramFormProps> = ({ updateFunction}) => {
   const {
     register,
     handleSubmit,
@@ -21,8 +25,9 @@ const ProgramForm: React.FC = () => {
   const startDateValue = watch('startDate');
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    await api.newProgram(data);
     reset();
+    await api.newProgram(data);
+    updateFunction();
     const modal = document.getElementById('modalNewProgram') as HTMLDialogElement;
     modal?.close();
   };

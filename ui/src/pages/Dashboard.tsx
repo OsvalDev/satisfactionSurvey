@@ -92,7 +92,7 @@ const Dashboard = () => {
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
           <h3 className="font-bold text-lg">Nuevo programa</h3>
-          <ProgramForm />
+          <ProgramForm updateFunction={fetchData} />
         </div>
       </dialog>
       <div className="flex-1 px-6 sm:px-8">
