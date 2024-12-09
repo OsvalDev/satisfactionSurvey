@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from  'cors';
 import Pages from './controllers/pages.js';
 import controller from "./controllers/survey.controller.js";
+import programController from './controllers/program.controller.js';
 
 dotenv.config()
 
@@ -20,8 +21,10 @@ app.get('/', Pages.getIndex);
 
 app.get('/api/user', controller.getUser);
 app.get('/api/surveyEmployee', controller.surveyEmployee);
+app.get('/api/program', programController.getAllPrograms);
 
 app.post('/api/survey', controller.postSurvey);
+app.post('/api/program', programController.newProgram);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
