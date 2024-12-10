@@ -33,6 +33,8 @@ type DataSurvey = {
   comments: string
 };
 
+type Comment = {name: string, content: string};
+
 type DataCharts = {
   feelingMean : EntryChart[],
   satsfactionMean : EntryChart[],
@@ -46,7 +48,8 @@ type DataCharts = {
     cleanWorkSpace: EntryChart[],
     cleanBathroom: EntryChart[],
     cleanDiningroom: EntryChart[],
-  }
+  },
+  comments: Comment[]
 }
 
 type AreaValue = {
@@ -98,7 +101,8 @@ const Dashboard = () => {
         cleanWorkSpace: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
         cleanBathroom: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
         cleanDiningroom: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
-      }
+      },
+      comments: []
     };
 
     const feelingByArea: AreaValue[] = [];
@@ -137,6 +141,10 @@ const Dashboard = () => {
       else result.clean.cleanDiningroom[1].value += 1;
       if (item.cleanWorkSpace) result.clean.cleanWorkSpace[0].value += 1;
       else result.clean.cleanWorkSpace[1].value += 1;
+
+      //comments
+      if (item.comments !== undefined && item.comments && item.comments !== '' )
+        result.comments.push({name: `${item.idEmployee} - ${item.nameEmployee} `, content: item.comments });
     });
 
     result.feelingMean = feelingByArea.map((objFeeling, index) => (
@@ -266,6 +274,14 @@ const Dashboard = () => {
                   <PieChartComponent data={charts?.clean.cleanBathroom} title='Baños' />
                   <PieChartComponent data={charts?.clean.cleanDiningroom} title='Comedor' />
                 </div>
+              </div>
+              <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
+                <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Comentarios de apoyo </p>
+                { charts?.comments && charts.comments.length > 0 && charts.comments.map((item, index) => (
+                  <p key={index} className='w-full sm:text-md lg:text-lg'>
+                    <span className='font-semibold'> {item.name} </span> {item.content}
+                  </p>
+                ) ) }
               </div>
             </div>
           </>
