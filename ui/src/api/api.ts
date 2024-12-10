@@ -41,6 +41,7 @@ type Api = {
   getPrograms: () => Promise<{status: string, data: Program[]}>,
   newProgram: (data: DataProgram) => Promise<{status: string, msg: string}>;
   programDetail: (id: number) => Promise<{status: string, data: ProgramDetail }>;
+  verifyAvailableSurvey: () => Promise<{status: string, data: ProgramDetail }>;
 };
 
 const baseApiEndpoint =  import.meta.env.VITE_API_URL;
@@ -56,6 +57,12 @@ const api: Api = {
 
     return response.data;
   },
+
+  verifyAvailableSurvey: async () => {
+    const response = await axios.get(`${baseApiEndpoint}/api/availableSurvey`);
+    return response.data;
+  },
+
   verifyResponseExist: async (id) => {
     const queryParams = {
       numEmployee: id,

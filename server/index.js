@@ -19,6 +19,8 @@ app.use(express.static('./dist'))
 
 app.get('/api/user', controller.getUser);
 app.get('/api/surveyEmployee', controller.surveyEmployee);
+app.get('/api/availableSurvey', controller.availableSurvey);
+
 app.get('/api/programList', programController.getAllPrograms);
 app.get('/api/program', controller.surveyData);
 

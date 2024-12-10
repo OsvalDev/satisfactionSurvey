@@ -46,7 +46,8 @@ type DataSurvey = {
     cleanWorkSpace: boolean,
     cleanBathroom: boolean,
     cleanDiningroom: boolean,
-    comments: string
+    comments: string,
+    programID: number
   };
 
 const strings = {

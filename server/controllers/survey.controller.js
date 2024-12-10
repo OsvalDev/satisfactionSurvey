@@ -19,7 +19,8 @@ const verifySurveyresponse = (data) => {
   if (data.cleanWorkSpace  === null) return;
   if (data.cleanBathroom  === null) return;
   if (data.cleanDiningroom  === null) return;
-  if (data.comments == null) return;
+  if (data.comments === null) return;
+  if (data.programID === null || data.programID === '' ) return;
   return true;
 };
 
@@ -40,12 +41,23 @@ controller.getUser = async (req, res) => {
   }
 };
 
+controller.availableSurvey = async (req, res) => {
+  try {
+    const query = 'SELECT * FROM SATISFACTIONPROGRAM WHERE startDate <= GETDATE() AND GETDATE() <= endDate ';
+    const result = await db.makeQuery(query);
+    res.status(200).json({status: 'success', data: result});
+  } catch (error) {
+    res.status(500).json({status: 'error', msg: error});
+  }
+};
+
 controller.surveyEmployee = async (req, res) => {
   const numEmployee = req.query.numEmployee;
+  const idProgram = req.query.idProgram;
   try {
     if ( numEmployee && numEmployee !== '' ) {
-      const query = 'SELECT * FROM SATISFACTION WHERE idEmployee like @numEmployee';
-      const values = { numEmployee};
+      const query = 'SELECT * FROM SATISFACTION WHERE idEmployee like @numEmployee AND satisfactionProgramID = @idProgram';
+      const values = { numEmployee, idProgram};
       const result = await db.makeQuery(query, values );
       res.status(200).json( result );
     }
@@ -67,9 +79,9 @@ controller.postSurvey = async (req, res) => {
   try {
       const query = `INSERT INTO "SATISFACTION"
         ("idEmployee","nameEmployee","area","feeling","satisfaction",
-        "payment","vacations","payrollReceipt","companyID","cleanWorkSpace","cleanBathroom","cleanDiningroom", "comments") 
+        "payment","vacations","payrollReceipt","companyID","cleanWorkSpace","cleanBathroom","cleanDiningroom", "comments", "satisfactionProgramID" ) 
         VALUES(@idEmployee, @nameEmployee, @area, @feeling, @satisfaction, 
-        @payment, @vacations, @payrollReceipt, @companyID, @cleanWorkSpace, @cleanBathroom, @cleanDiningroom, @comments);`;
+        @payment, @vacations, @payrollReceipt, @companyID, @cleanWorkSpace, @cleanBathroom, @cleanDiningroom, @comments, @programID);`;
       const values = {
         idEmployee: data.idEmployee,
         nameEmployee: data.nameEmployee,
@@ -83,7 +95,8 @@ controller.postSurvey = async (req, res) => {
         cleanWorkSpace: data.cleanWorkSpace,
         cleanBathroom: data.cleanBathroom,
         cleanDiningroom: data.cleanDiningroom,
-        comments: data.comments
+        comments: data.comments,
+        programID: data.programID
       };
       await db.makeQuery(query, values );
       res.status(200).json( ({status: 'success', msg: 'Respuesta registrada'}));
