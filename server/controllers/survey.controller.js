@@ -56,7 +56,7 @@ controller.surveyEmployee = async (req, res) => {
   const idProgram = req.query.idProgram;
   try {
     if ( numEmployee && numEmployee !== '' ) {
-      const query = 'SELECT * FROM SATISFACTION WHERE idEmployee like @numEmployee AND satisfactionProgramID = @idProgram';
+      const query = 'SELECT id FROM SATISFACTION WHERE idEmployee like @numEmployee AND satisfactionProgramID = @idProgram';
       const values = { numEmployee, idProgram};
       const result = await db.makeQuery(query, values );
       res.status(200).json( result );

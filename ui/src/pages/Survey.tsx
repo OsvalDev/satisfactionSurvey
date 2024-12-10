@@ -1,5 +1,5 @@
 import LogoCarnival from '../assets/carnivalLogo.png';
-import { useForm, SubmitHandler, UseFormSetValue  } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormSetValue } from 'react-hook-form';
 import { useEffect, useState, useRef } from 'react';
 import {FireSucess, FireError} from '../utils/alertHandler';
 
@@ -92,12 +92,14 @@ const generateSteps = (end: number, step: number) => {
 
 const stepsRangeSatisfaction = generateSteps(10, 1);
 
-const getEmployeeData = async (employee: string, setValue: UseFormSetValue<Inputs>) => {
+const getEmployeeData = async (
+  employee: string,
+  setValue: UseFormSetValue<Inputs>,
+) => {
   if (employee){
     const data: EmployeeData[] = await api.getUserInfo(employee);
     if ( data && data.length > 0 ) {
-      // TODO: manage user verification
-      // const verificationEmployee = await api.verifyResponseExist(data[0]?.trab_id);
+
       setValue('nameEmployee', data[0]?.nombre);
       setValue('area', data[0]?.departamento);
       return;
@@ -111,7 +113,9 @@ const getEmployeeData = async (employee: string, setValue: UseFormSetValue<Input
 const Survey = () => {
   const [selectedAnimation, setSelectedAnimation] = useState<string>('');
   const [satisfaction, setSatisfaction] = useState(7);
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, watch, setValue, formState: { errors },  } = useForm<Inputs>({
+    mode: 'onChange',
+  });
 
   const [isSending, setIsSending] = useState(false);
   const [programData, setProgramData] = useState({id: -1, name: ''});
@@ -126,6 +130,7 @@ const Survey = () => {
       ...data,
       feeling: selectedAnimation,
       satisfaction: satisfaction,
+      programID: programData.id
     };
 
     if (formatData.feeling === '') {
@@ -197,13 +202,34 @@ const Survey = () => {
                       <div className="label">
                         <span className="label-text"> { strings.idEmployee } </span>
                       </div>
-                      <input placeholder={strings.idEmployeePlaceHolder} {...register('idEmployee', { required: true })}
-                        className="input input-bordered w-full" />
-                      {errors?.idEmployee &&
-                <div className="label">
-                  <span className="label-text-alt text-error">Este campo es obligatorio</span>
-                </div>
-                      }
+                      <input
+                        placeholder={strings.idEmployeePlaceHolder}
+                        {...register('idEmployee', {
+                          required: 'Este campo es obligatorio',
+                          validate: async (value) => {
+                            try {
+                              const verificationEmployee = await api.verifyResponseExist(value, programData.id);
+                              if (verificationEmployee.length > 0) {
+                                return 'Este empleado ya envio una respuesta.';
+                              }
+                              return true;
+                            } catch (error) {
+                              // eslint-disable-next-line no-console
+                              console.error('Error during validation:', error);
+                              return 'Hubo un problema al verificar el usuario.';
+                            }
+                          },
+                        })}
+                        className="input input-bordered w-full"
+                      />
+                      {errors?.idEmployee && (
+                        <div className="label">
+                          <span className="label-text-alt text-error">
+                            {errors.idEmployee.message}
+                          </span>
+                        </div>
+                      )}
+
                     </label>
                     <label className="">
                       <div className="label">

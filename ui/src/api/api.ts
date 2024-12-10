@@ -36,7 +36,7 @@ type ProgramDetail = {
 
 type Api = {
   getUserInfo: (id: string) => Promise<[]>;
-  verifyResponseExist: (id: string) => Promise<[]>;
+  verifyResponseExist: (id: string, idProgram: number) => Promise<[]>;
   sendSurvey: (data: DataSurvey) => Promise<{status: string, msg: string}>;
   getPrograms: () => Promise<{status: string, data: Program[]}>,
   newProgram: (data: DataProgram) => Promise<{status: string, msg: string}>;
@@ -63,9 +63,10 @@ const api: Api = {
     return response.data;
   },
 
-  verifyResponseExist: async (id) => {
+  verifyResponseExist: async (id, idProgram) => {
     const queryParams = {
       numEmployee: id,
+      idProgram:idProgram
     };
     const response = await axios.get(`${baseApiEndpoint}/api/surveyEmployee`, {
       params: queryParams,
