@@ -89,15 +89,15 @@ const Dashboard = () => {
       feelingMean : [],
       satsfactionMean : [],
       basics: {
-        payment: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
-        vacations: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#fbcfe8'}],
-        payrollReceipt: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
-        companyID: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#fbcfe8'}],
+        payment: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
+        vacations: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
+        payrollReceipt: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
+        companyID: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
       },
       clean: {
-        cleanWorkSpace: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
-        cleanBathroom: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#fbcfe8'}],
-        cleanDiningroom: [{name: 'Cumple', value: 0, fill: '#fbcfe8'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
+        cleanWorkSpace: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
+        cleanBathroom: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
+        cleanDiningroom: [{name: 'Cumple', value: 0, fill: '#a78bfa'}, {name: 'No cumple', value: 0, fill: '#f472b6'}],
       }
     };
 
@@ -140,10 +140,10 @@ const Dashboard = () => {
     });
 
     result.feelingMean = feelingByArea.map((objFeeling, index) => (
-      {name: objFeeling.areaName, value: (objFeeling.value / objFeeling.responses), fill: index%2 ? '#fbcfe8' : '#f472b6'  }) );
+      {name: objFeeling.areaName, value: (objFeeling.value / objFeeling.responses), fill: index%2 ? '#a78bfa' : '#f472b6'  }) );
 
     result.satsfactionMean = satisfactionByArea.map((objSatisfaction, index) => (
-      {name: objSatisfaction.areaName, value: (objSatisfaction.value / objSatisfaction.responses), fill: index%2 ? '#fbcfe8' : '#f472b6'  }) );
+      {name: objSatisfaction.areaName, value: (objSatisfaction.value / objSatisfaction.responses), fill: index%2 ? '#a78bfa' : '#f472b6'  }) );
 
     return result;
   };
