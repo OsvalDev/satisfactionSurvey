@@ -41,7 +41,7 @@ type Api = {
   getPrograms: () => Promise<{status: string, data: Program[]}>,
   newProgram: (data: DataProgram) => Promise<{status: string, msg: string}>;
   programDetail: (id: number) => Promise<{status: string, data: ProgramDetail }>;
-  verifyAvailableSurvey: () => Promise<{status: string, data: ProgramDetail }>;
+  verifyAvailableSurvey: () => Promise<{status: string, data: Program[] }>;
 };
 
 const baseApiEndpoint =  import.meta.env.VITE_API_URL;
