@@ -226,7 +226,7 @@ const Dashboard = () => {
                 <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Comentarios de apoyo </p>
                 { charts?.comments && charts.comments.length > 0 && charts.comments.map((item, index) => (
                   <p key={index} className='w-full sm:text-md lg:text-lg'>
-                    <span className='font-semibold'> {item.name} </span> {item.content}
+                    <span className='font-semibold mr-6'> {item.name} </span> {item.content}
                   </p>
                 ) ) }
               </div>
