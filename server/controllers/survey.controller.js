@@ -101,6 +101,7 @@ controller.postSurvey = async (req, res) => {
       await db.makeQuery(query, values );
       res.status(200).json( ({status: 'success', msg: 'Respuesta registrada'}));
   } catch (error) {
+    console.log(error);
     res.status(500).json( {status: 'error', msg: 'Error en la base de datos'});
   }
 };
