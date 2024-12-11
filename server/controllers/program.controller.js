@@ -15,7 +15,7 @@ controller.newProgram = async (req, res) => {
   const data = req.body;
 
   if (!verifyProgram(data)) {
-    res.status(400).json({ status: 'error', msg: 'Datos incorrectos' });
+    res.status(200).json({ status: 'error', msg: 'Datos incorrectos' });
     return;
   }
 

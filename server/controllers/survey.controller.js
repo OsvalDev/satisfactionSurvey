@@ -35,7 +35,7 @@ controller.getUser = async (req, res) => {
       const result = await db.makeQuery(query, values, userDB )
       res.status(200).json( result );
     }
-    else res.status(500).json([]);
+    else res.status(200).json([]);
   } catch (error) {
     res.status(500).json([]);
   }
@@ -61,7 +61,7 @@ controller.surveyEmployee = async (req, res) => {
       const result = await db.makeQuery(query, values );
       res.status(200).json( result );
     }
-    else res.status(500).json([]);
+    else res.status(200).json([]);
   } catch (error) {
     res.status(500).json([]);
   }
@@ -123,7 +123,7 @@ controller.surveyData = async (req, res) => {
       res.status(200).json({status: 'success', data: formatData});
   
     } else {
-      res.status(500).json({status: 'success', data: 'Id no provided'});
+      res.status(200).json({status: 'success', data: 'Id no provided'});
     }
   } catch (error) {
     res.status(500).json({status: 'success', data: 'Id no provided'});
