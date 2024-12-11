@@ -1,62 +1,9 @@
 import {ResponsiveContainer,BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar} from 'recharts';
-import { PieChartComponent } from '../components/PieChartComponent';
-import { ProgramForm } from '../components/Form/ProgramForm';
+import { PieChartComponent } from '../../components/PieChartComponent';
+import { ProgramForm } from '../../components/Form/ProgramForm';
 import { useEffect, useState } from 'react';
-import api from '../api/api';
-
-type EntryChart = {
-  name: string
-  value: number,
-  fill: string
-}
-
-type Program = {
-  id: number,
-  startDate: string,
-  endDate: string,
-  programName: string
-}
-
-type DataSurvey = {
-  idEmployee: string,
-  nameEmployee: string,
-  area: string,
-  feeling: string,
-  satisfaction: number,
-  payment: boolean,
-  vacations: boolean,
-  payrollReceipt: boolean,
-  companyID: boolean,
-  cleanWorkSpace: boolean,
-  cleanBathroom: boolean,
-  cleanDiningroom: boolean,
-  comments: string
-};
-
-type Comment = {name: string, content: string};
-
-type DataCharts = {
-  feelingMean : EntryChart[],
-  satsfactionMean : EntryChart[],
-  basics: {
-    payment: EntryChart[],
-    vacations: EntryChart[],
-    payrollReceipt: EntryChart[],
-    companyID: EntryChart[],
-  },
-  clean: {
-    cleanWorkSpace: EntryChart[],
-    cleanBathroom: EntryChart[],
-    cleanDiningroom: EntryChart[],
-  },
-  comments: Comment[]
-}
-
-type AreaValue = {
-  areaName: string,
-  value: number,
-  responses: number
-}
+import { getPrograms, programDetail } from '../../api/index';
+import {Program, DataSurvey, DataCharts, AreaValue} from './types';
 
 const Dashboard = () => {
   const [programs, setPrograms] = useState([] as Program[]);
@@ -69,7 +16,7 @@ const Dashboard = () => {
   const [charts, setCharts] = useState<DataCharts>();
 
   const fetchData = async () => {
-    const result = await api.getPrograms();
+    const result = await getPrograms();
     if (result.status === 'success') {
       setPrograms(result.data);
       if (result.data.length > 0) setProgramActive(result.data[0].id);
@@ -159,7 +106,7 @@ const Dashboard = () => {
   const fetchDataProgramDetail = async (id: number | null) => {
     setIsLoading(true);
     if (id){
-      const result = await api.programDetail(id);
+      const result = await programDetail(id);
       setProgramInfo(result.data.programData[0]);
       setResponsesInfo(result.data.responses);
       setCharts( generateChartsInfo(result.data.responses) );

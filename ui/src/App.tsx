@@ -1,7 +1,7 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Survey } from './pages/Survey';
-import { Dashboard } from './pages/Dashboard';
+import { Dashboard } from './pages/Dashboard/Dashboard';
 
 function App() {
   return (
