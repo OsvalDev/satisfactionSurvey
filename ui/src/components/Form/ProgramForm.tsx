@@ -56,7 +56,8 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ updateFunction}) => {
           className={`input input-bordered ${errors.name ? 'input-error' : ''}`}
           {...register('name', {
             required: 'Se necesita el nombre del programa.',
-            minLength: { value: 1, message: 'Name must have at least 1 character.' },
+            minLength: { value: 1, message: 'El nombre debe de ser de almenos 1 carácter.' },
+            maxLength: { value: 100, message: 'El nombre debe de ser de maximo 100 caracteres'},
           })}
         />
         {errors.name && (
