@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "moveDist" : "node ./scripts/movedist.js",
+    "deploy": "npm run build && npm run moveDist && node ./scripts/deploy.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
