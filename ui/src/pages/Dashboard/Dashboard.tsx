@@ -167,69 +167,78 @@ const Dashboard = () => {
         ) :
           (<>
             <div className="flex-1 px-6 sm:px-8">
-              <div className="bg-white w-full rounded-lg  sm:rounded-t-none shadow-md py-2 sm:py-4">
-                <p className="text-xl text-center sm:text-xl lg:text-3xl font-bold mb-2"> Programa: {programInfo && programInfo.programName} </p>
-                <div className="flex w-full justify-around mb-2">
-                  <p className="text-xl text-center sm:text-xl lg:text-3xl "> Fecha de inicio: {programInfo && programInfo.startDate.split('T')[0]} </p>
-                  <p className="text-xl text-center sm:text-xl lg:text-3xl "> Fecha de fin: {programInfo && programInfo.endDate.split('T')[0]} </p>
-                </div>
-                <p className="text-xl text-center sm:text-xl lg:text-3xl mb-2"> Numero de respuestas: {responsesInfo && responsesInfo.length} </p>
-              </div>
-              <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
-                <div className='w-full h-[200px] sm:h-[400px]'>
-                  <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio de nivel de sentimiento por area </p>
-                  <ResponsiveContainer width="100%" height="95%">
-                    <BarChart data={charts?.feelingMean} layout="vertical">
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis type="number" />
-                      <YAxis type="category" dataKey="name" />
-                      <Tooltip />
-                      <Bar dataKey="value" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-              <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
-                <div className='w-full h-[200px] sm:h-[400px]'>
-                  <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio de satisfaccion por area </p>
-                  <ResponsiveContainer width="100%" height="95%">
-                    <BarChart data={charts?.satsfactionMean} layout="vertical">
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis type="number" />
-                      <YAxis type="category" dataKey="name" />
-                      <Tooltip />
-                      <Bar dataKey="value" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-              <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
-                <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio general de basicos </p>
-                <div className='w-full flex flex-wrap justify-center'>
-                  <PieChartComponent data={charts?.basics.payment} title='Pago correcto' />
-                  <PieChartComponent data={charts?.basics.vacations} title='Vacaciones pendientes' />
-                  <PieChartComponent data={charts?.basics.payrollReceipt} title='Recibo de nomina' />
-                  <PieChartComponent data={charts?.basics.companyID} title='Credencial de la empresa' />
-                </div>
-              </div>
-              <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
-                <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio general de orden y limpieza </p>
-                <div className='w-full flex flex-wrap justify-center'>
-                  <PieChartComponent data={charts?.clean.cleanWorkSpace} title='Area de trabajo' />
-                  <PieChartComponent data={charts?.clean.cleanBathroom} title='Baños' />
-                  <PieChartComponent data={charts?.clean.cleanDiningroom} title='Comedor' />
-                </div>
-              </div>
-              <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
-                <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Comentarios de apoyo </p>
-                { charts?.comments && charts.comments.length > 0 && charts.comments.map((item, index) => (
-                  <p key={index} className='w-full sm:text-md lg:text-lg'>
-                    <span className='font-semibold mr-6'> {item.name} </span> {item.content}
-                  </p>
-                ) ) }
-              </div>
+              { programs && programs.length > 0 ? (
+                <>
+                  <div className="bg-white w-full rounded-lg  sm:rounded-t-none shadow-md py-2 sm:py-4">
+                    <p className="text-xl text-center sm:text-xl lg:text-3xl font-bold mb-2"> Programa: {programInfo && programInfo.programName} </p>
+                    <div className="flex w-full justify-around mb-2">
+                      <p className="text-xl text-center sm:text-xl lg:text-3xl "> Fecha de inicio: {programInfo && programInfo.startDate.split('T')[0]} </p>
+                      <p className="text-xl text-center sm:text-xl lg:text-3xl "> Fecha de fin: {programInfo && programInfo.endDate.split('T')[0]} </p>
+                    </div>
+                    <p className="text-xl text-center sm:text-xl lg:text-3xl mb-2"> Numero de respuestas: {responsesInfo && responsesInfo.length} </p>
+                  </div>
+                  <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
+                    <div className='w-full h-[200px] sm:h-[400px]'>
+                      <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio de nivel de sentimiento por area </p>
+                      <ResponsiveContainer width="100%" height="95%">
+                        <BarChart data={charts?.feelingMean} layout="vertical">
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis type="number" />
+                          <YAxis type="category" dataKey="name" />
+                          <Tooltip />
+                          <Bar dataKey="value" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                  <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
+                    <div className='w-full h-[200px] sm:h-[400px]'>
+                      <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio de satisfaccion por area </p>
+                      <ResponsiveContainer width="100%" height="95%">
+                        <BarChart data={charts?.satsfactionMean} layout="vertical">
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis type="number" />
+                          <YAxis type="category" dataKey="name" />
+                          <Tooltip />
+                          <Bar dataKey="value" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                  <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
+                    <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio general de basicos </p>
+                    <div className='w-full flex flex-wrap justify-center'>
+                      <PieChartComponent data={charts?.basics.payment} title='Pago correcto' />
+                      <PieChartComponent data={charts?.basics.vacations} title='Vacaciones pendientes' />
+                      <PieChartComponent data={charts?.basics.payrollReceipt} title='Recibo de nomina' />
+                      <PieChartComponent data={charts?.basics.companyID} title='Credencial de la empresa' />
+                    </div>
+                  </div>
+                  <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
+                    <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Promedio general de orden y limpieza </p>
+                    <div className='w-full flex flex-wrap justify-center'>
+                      <PieChartComponent data={charts?.clean.cleanWorkSpace} title='Area de trabajo' />
+                      <PieChartComponent data={charts?.clean.cleanBathroom} title='Baños' />
+                      <PieChartComponent data={charts?.clean.cleanDiningroom} title='Comedor' />
+                    </div>
+                  </div>
+                  <div className="bg-white w-full rounded-lg shadow-md p-2 sm:p-4 sm:py-4 mt-4">
+                    <p className='w-full text-center font-semibold sm:text-xl lg:text-3xl'> Comentarios de apoyo </p>
+                    { charts?.comments && charts.comments.length > 0 && charts.comments.map((item, index) => (
+                      <p key={index} className='w-full sm:text-md lg:text-lg'>
+                        <span className='font-semibold mr-6'> {item.name} </span> {item.content}
+                      </p>
+                    ) ) }
+                  </div>
+                </>) : (
+                <>
+                  <div className="bg-white w-full rounded-lg  sm:rounded-t-none shadow-md py-2 sm:py-4">
+                    <p className="text-xl text-center sm:text-xl lg:text-3xl font-bold mb-2"> Por favor, crea un programa </p>
+                  </div>
+                </>
+              ) }
             </div>
           </>
           )
