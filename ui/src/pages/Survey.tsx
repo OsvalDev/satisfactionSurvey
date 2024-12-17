@@ -343,8 +343,15 @@ const Survey = () => {
                   <div className='mb-2'>
                     <p className='text-xl text-center sm:text-2xl lg:text-3xl font-semibold my-2'> {strings.helpQuestion} </p>
                     <textarea
-                      placeholder="Comentarios" {...register('comments')}
+                      placeholder="Comentarios" {...register('comments', {
+                        maxLength: 400
+                      })}
                       className="textarea textarea-bordered textarea-sm w-full max-w-xs"></textarea>
+                    {errors?.comments &&
+                      <div className="label w-full flex justify-center ">
+                        <span className="label-text-alt text-error"> El maximo de caracteres es de 400 </span>
+                      </div>
+                    }
                   </div>
 
                   <button type="submit" disabled={isSending} className='btn text-gray-100 bg-pink-400 hover:bg-pink-500'>
